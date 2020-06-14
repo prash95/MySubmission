@@ -1,1 +1,15 @@
-This is my first Project
+
+i) The ML_Code.py file is written in Python3 so please install python3 if it is not installed in your system.
+
+ii) Install pip3 if not present by the following command,
+	sudo apt install python3-pip
+
+iii) Install all the package dependencies with the following command,
+	pip3 install -r requirements.txt
+
+iv) Finally, Execute the ML_Model.py with the following command,
+	python3 ML_Model.py
+
+
+
+
