@@ -1,31 +1,24 @@
 
-i) Please ensure python 2.7 or higher is installed.
+i) The ML_Code.py file is written in Python3 so please install python3 if it is not present in your system.
 
 ii) Download the entire repository MySubmission to your computer and set it as the present working directory.
 
-iii) Depending on the version of Python, Please Install pip3 or pip if not present by the following command,
-If running Python 3 on Ubuntu,
-sudo apt install python3-pip
-If running Python 2 on Ubuntu,
-sudo apt install python-pip
-If running on MacOS, pip3 is not required so you can proceed to the next step
+ii) Install pip3 if not present by the following command,
+	If running on Ubuntu,
+	sudo apt install python3-pip
+	If running on MacOS, pip3 is not required so you can proceed to the next step
+	
 
-Pip installation may require elevated persmission, if installation fails try running the command as root user(sudo)
+iii) Install all the package dependencies with the following command,
+	If running on Ubuntu,
+	pip3 install -r requirements.txt
+	If running on MacOS,
+	pip install -r requirements.txt
+
+iv) Finally, Execute the ML_Model.py with the following command,
+	python3 ML_Code.py
 
 
-iv) Install all the package dependencies with the following command,
-If running on Python3,
-pip3 install -r requirements.txt
-
-If running on Python2,
-pip install -r requirements.txt
-
-v) Finally, Execute the ML_Model.py with the following command,
-python ML_Code.py 
-
-OR
-
-python3 ML_Code.py
 
 
 
