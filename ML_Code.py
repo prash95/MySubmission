@@ -5,6 +5,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.feature_selection import RFE
 from sklearn.neural_network import MLPClassifier, MLPRegressor
 import matplotlib.pyplot as plt
+np.random.seed(1337)
 
 #Import Training Data and Normalise the Data
 training_data = pd.read_excel("dataset/training1.xlsx", header=None)
@@ -26,6 +27,8 @@ scaler.fit(training_data)
 X3 = scaler.transform(training_data)
 X3 = pd.DataFrame(X3)
 
+
+
 #Import Label data for training and normalise the data
 
 training_data = pd.read_excel("dataset/training1_bsi.xlsx", header=None)
@@ -46,6 +49,8 @@ scaler = StandardScaler(copy=True, with_mean=True, with_std=True)
 scaler.fit(training_data)
 y3 = scaler.transform(training_data)
 y3 = pd.DataFrame(y3)
+
+
 
 
 #Assign Headers for Data Frames 
@@ -111,11 +116,11 @@ while (len(cols)>0):
 selected_features_BE = cols
 print('The selected features for Training Dataset 3 is',selected_features_BE)
 
+
 #Dropping the constant column which was mandatory for Linear Model
 X_1 = X_1.drop(['const'], axis = 1)
 X_2 = X_2.drop(['const'], axis = 1)
 X_3 = X_3.drop(['const'], axis = 1)
-
 
 #Convert training data to NumPY array()
 X1 = X_1.to_numpy()
@@ -205,74 +210,12 @@ scaler.fit(testing_data)
 y3 = scaler.transform(testing_data)
 y3 = pd.DataFrame(y3)
 
-#Apply Headers for the DataFrames
-for x in range(1,4):
-    exec("X"+str(x)+".columns = ['X1','X2','X3','X4','X5']")
-for y in range(1,4):
-    exec("y"+str(y)+".columns = ['y1']")
-    
-#Feature Selection for Testing Data
-#Backward Elimination using Ordinary Least Squares Model
-#Backward Elimination
-cols = list(X1.columns)
-pmax = 1
-while (len(cols)>0):
-    p= []
-    X_1 = X1[cols]
- #Adding constant column of ones, mandatory for sm.OLS model
-    X_1 = sm.add_constant(X_1)
-    model = sm.OLS(y1,X_1).fit()
-    p = pd.Series(model.pvalues.values[1:],index = cols)      
-    pmax = max(p)
-    feature_with_p_max = p.idxmax()
-    if(pmax>0.05):
-        cols.remove(feature_with_p_max)
-    else:
-        break
-selected_features_BE = cols
-print('The selected features for Testing Dataset 1 is',selected_features_BE)
 
-#Repeat for all the remaining 2 datasets
-cols = list(X2.columns)
-pmax = 1
-while (len(cols)>0):
-    p= []
-    X_2 = X2[cols]
- #Adding constant column of ones, mandatory for sm.OLS model
-    X_2 = sm.add_constant(X_2)
-    model = sm.OLS(y2,X_2).fit()
-    p = pd.Series(model.pvalues.values[1:],index = cols)      
-    pmax = max(p)
-    feature_with_p_max = p.idxmax()
-    if(pmax>0.05):
-        cols.remove(feature_with_p_max)
-    else:
-        break
-selected_features_BE = cols
-print('The selected features for Testing Dataset 2 is',selected_features_BE)
-
-cols = list(X3.columns)
-pmax = 1
-while (len(cols)>0):
-    p= []
-    X_3 = X3[cols]
- #Adding constant column of ones, mandatory for sm.OLS model
-    X_3 = sm.add_constant(X_3)
-    model = sm.OLS(y3,X_3).fit()
-    p = pd.Series(model.pvalues.values[1:],index = cols)      
-    pmax = max(p)
-    feature_with_p_max = p.idxmax()
-    if(pmax>0.05):
-        cols.remove(feature_with_p_max)
-    else:
-        break
-selected_features_BE = cols
-print('The selected features for Testing Dataset 3 is',selected_features_BE)
 
 #Convert Test Data to NumPY()
-test_data1 = X_1.to_numpy()
-test_data2 = X_2.to_numpy()
-test_data3 = X_3.to_numpy()
+test_data1 = X1.to_numpy()
+test_data2 = X2.to_numpy()
+test_data3 = X3.to_numpy()
 
 #Convert Test Label Data to NumPY()
 #Import Label
@@ -289,8 +232,8 @@ i = 0
 j=1
 while i < 3:
     fig = plt.figure(j, figsize=(8, 6))
-    #Using the Trained model stored in clf variable 
-    clf.fit(test_data[i],test_data_label[i].ravel())
+    #Model used to train Training Dataset 1,2,3 will be used to predict Testing Dataset 1,2,3 respectively
+    clf.fit(x_data[i],y_data[i].ravel())
     prediction = clf.predict(test_data[i])
     time = range(0,prediction.size)
     time1 = range(0,test_data_label[i].size)
